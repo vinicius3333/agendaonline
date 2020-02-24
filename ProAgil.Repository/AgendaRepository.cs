@@ -1,0 +1,123 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using ProAgil.Domain;
+using ProAgil.Domain.Identity;
+
+namespace ProAgil.Repository
+{
+    public class AgendaRepository : IAgendaRepository
+    {
+
+        private readonly AgendaContext _context;
+
+        public AgendaRepository(AgendaContext context)
+        {
+            _context = context;
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        }
+        ///GERAIS
+        public void Add<T>(T entity) where T : class
+        {
+            _context.Add(entity);
+        }
+
+        public void Update<T>(T entity) where T : class
+        {
+            _context.Update(entity);
+        }
+
+        public void Delete<T>(T entity) where T : class
+        {
+            _context.Remove(entity);
+        }
+
+        public void DeleteRange<T>(T[] entityArray) where T : class
+        {
+            _context.RemoveRange(entityArray);
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync()) > 0;
+        }
+
+        public async Task<Agenda[]> ObterTodosAgendamentosPorUsuarioAsync(int usuarioId)
+        {
+            IQueryable<Agenda> query = _context.Agendas.Where(x => x.UserId == usuarioId )
+            .OrderByDescending(c => c.DataHora);
+            query = query.AsNoTracking().OrderByDescending(c => c.DataHora);
+
+            return await query.ToArrayAsync();
+        }
+   
+        public async Task<User[]> ObterTodosUsuariosPorAgendamentoAsync(int agendaId)
+        {
+            IQueryable<User> query = _context.Users.Where(x => x.AgendaId == agendaId );
+            query = query.AsNoTracking();
+
+            return await query.ToArrayAsync();
+        } 
+
+        public async Task<Agenda[]> ObterDataClientesAgendadosAsync(Agenda agenda)
+        {
+            IQueryable<Agenda> query = _context.Agendas.Where(a => a.DataHora == agenda.DataHora);
+            query = query.AsNoTracking();
+
+            return await query.ToArrayAsync();
+        }
+       
+        public async Task<Agenda[]> ObterDiasAgendadosAsync()
+        {
+            IQueryable<Agenda> query = (IQueryable<Agenda>)  _context.Agendas.OrderBy(x => x.DataHora).ToList().Select(x => x.DataHora.Day + "/" + x.DataHora.Month + "/" + x.DataHora.Year).Distinct();
+            query = query.AsNoTracking();    
+
+            return await query.ToArrayAsync();
+        }
+
+        public async Task<List<string>> ObterHorariosAtendimento()
+        {
+            List<string> horarios = new List<string>();
+            horarios.Add("09:30");    
+            horarios.Add("10:20");    
+            horarios.Add("11:10");
+            horarios.Add("12:00");
+            horarios.Add("12:50");
+            horarios.Add("13:40");
+            horarios.Add("14:30");
+            horarios.Add("15:20");
+            horarios.Add("16:10");
+            horarios.Add("17:00");
+            horarios.Add("17:50");
+            horarios.Add("18:40");    
+
+            return horarios;
+        }
+
+        public async Task<Agenda[]> ObterIdsServicosFinalizadosAsync(Agenda[] agendamentos)
+        {
+            IQueryable<Agenda> query = (IQueryable<Agenda>) agendamentos.Where(a => a.DataHora <= DateTime.Now.Date && a.DataHora.AddMinutes(50) <= DateTime.Now.Date).Select(a => a.Id).ToList();    
+            query = query.AsNoTracking();
+
+            return await query.ToArrayAsync();
+        }
+
+        public async Task<Agenda[]> ObterIdsServicosVencidosAsync(Agenda[] agendamentos)
+        {
+            IQueryable<Agenda> query = (IQueryable<Agenda>) agendamentos.Where(a => a.DataHora < DateTime.Now.Date).Select(a => a.Id).ToList();    
+            query = query.AsNoTracking();
+
+            return await query.ToArrayAsync();
+        }
+        public async Task<Agenda> ObterAgendamentoPorIdAsync(int AgendaId)
+        {
+            IQueryable<Agenda> query = _context.Agendas;
+            query = query.AsNoTracking().OrderByDescending(c => c.DataHora)
+                         .Where(c => c.Id == AgendaId);
+
+            return await query.FirstOrDefaultAsync();
+        }
+    }
+}
