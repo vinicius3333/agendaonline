@@ -14,14 +14,15 @@ namespace ProAgil.Repository
 
          Task<bool> SaveChangesAsync();
          ///EVENTOS
+         Task<Agenda[]> teste();
          Task<Agenda[]> ObterTodosAgendamentosPorUsuarioAsync(int usuarioId);
          Task<Agenda> ObterAgendamentoPorIdAsync(int agendamentoId);
-         Task<User[]> ObterTodosUsuariosPorAgendamentoAsync(int agendaId);
+         Task<User[]> ObterTodosUsuariosAsync();
          Task<Agenda[]> ObterDataClientesAgendadosAsync(Agenda agenda);
          Task<Agenda[]> ObterDiasAgendadosAsync();
          Task<List<string>> ObterHorariosAtendimento();
-         Task<Agenda[]> ObterIdsServicosFinalizadosAsync(Agenda[] agendamentos);
-         Task<Agenda[]> ObterIdsServicosVencidosAsync(Agenda[] agendamentos);
+         Agenda[] ObterServicosFinalizadosAsync(Agenda[] agendamentos);
+         Agenda[] ObterServicosVencidosAsync(Agenda[] agendamentos);
 
     }
 }

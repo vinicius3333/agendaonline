@@ -74,7 +74,8 @@ namespace ProAgil.WebApi
                 }
              );
 
-            services.AddMvc(options => {
+            services.AddMvc(
+                options => {
                    var policy = new AuthorizationPolicyBuilder()
                    .RequireAuthenticatedUser()
                    .Build();

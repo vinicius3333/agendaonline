@@ -44,18 +44,27 @@ namespace ProAgil.Repository
             return (await _context.SaveChangesAsync()) > 0;
         }
 
+        public async Task<Agenda[]> teste()
+        {
+            IQueryable<Agenda> query = _context.Agendas
+            .OrderByDescending(c => c.DataHora);
+            query = query.AsNoTracking().OrderByDescending(c => c.DataHora);
+
+            return await query.ToArrayAsync();
+        }
+
         public async Task<Agenda[]> ObterTodosAgendamentosPorUsuarioAsync(int usuarioId)
         {
-            IQueryable<Agenda> query = _context.Agendas.Where(x => x.UserId == usuarioId )
+            IQueryable<Agenda> query = _context.Agendas.Include("User").Where(x => x.UserId == usuarioId )
             .OrderByDescending(c => c.DataHora);
             query = query.AsNoTracking().OrderByDescending(c => c.DataHora);
 
             return await query.ToArrayAsync();
         }
    
-        public async Task<User[]> ObterTodosUsuariosPorAgendamentoAsync(int agendaId)
+        public async Task<User[]> ObterTodosUsuariosAsync()
         {
-            IQueryable<User> query = _context.Users.Where(x => x.AgendaId == agendaId );
+            IQueryable<User> query = _context.Users;
             query = query.AsNoTracking();
 
             return await query.ToArrayAsync();
@@ -96,20 +105,18 @@ namespace ProAgil.Repository
             return horarios;
         }
 
-        public async Task<Agenda[]> ObterIdsServicosFinalizadosAsync(Agenda[] agendamentos)
+        public Agenda[] ObterServicosFinalizadosAsync(Agenda[] agendamentos)
         {
-            IQueryable<Agenda> query = (IQueryable<Agenda>) agendamentos.Where(a => a.DataHora <= DateTime.Now.Date && a.DataHora.AddMinutes(50) <= DateTime.Now.Date).Select(a => a.Id).ToList();    
-            query = query.AsNoTracking();
+            Agenda[] query = agendamentos.Where(a => a.DataHora <= DateTime.Now.Date && a.DataHora.AddMinutes(50) <= DateTime.Now.Date).ToArray();    
 
-            return await query.ToArrayAsync();
+            return query;
         }
 
-        public async Task<Agenda[]> ObterIdsServicosVencidosAsync(Agenda[] agendamentos)
+        public Agenda[] ObterServicosVencidosAsync(Agenda[] agendamentos)
         {
-            IQueryable<Agenda> query = (IQueryable<Agenda>) agendamentos.Where(a => a.DataHora < DateTime.Now.Date).Select(a => a.Id).ToList();    
-            query = query.AsNoTracking();
+            Agenda[] query = agendamentos.Where(a => a.DataHora < DateTime.Now.Date).ToArray();    
 
-            return await query.ToArrayAsync();
+            return query;
         }
         public async Task<Agenda> ObterAgendamentoPorIdAsync(int AgendaId)
         {

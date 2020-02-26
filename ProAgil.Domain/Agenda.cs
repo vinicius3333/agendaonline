@@ -20,6 +20,6 @@ namespace ProAgil.Domain
 
         public int? UserId { get; set; }
 
-        public User User { get;}
+        public virtual User User { get;}
     }
 }

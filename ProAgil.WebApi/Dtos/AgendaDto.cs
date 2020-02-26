@@ -25,5 +25,6 @@ namespace ProAgil.WebApi.Dtos
         public string Celular { get; set; }
         
         public List<UserDto> Usuarios { get; set; }
+        public int? UserId { get; set; }
     }
 }
