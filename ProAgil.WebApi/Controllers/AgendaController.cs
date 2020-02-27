@@ -34,13 +34,22 @@ namespace ProAgil.WebApi.Controllers
             try
             {
                 var agendamentoDesatualizado = await _repo.teste();
-                MotorRemocao(agendamentoDesatualizado);
+                agendamentoDesatualizado.OrderByDescending(c => c.DataHora);
 
-                var agendamentoAtual = await _repo.teste();
-                var results = _mapper.Map<AgendaDto[]>(agendamentoAtual);
-                if (results != null)
+                if (agendamentoDesatualizado.Length > 0)
                 {
-                    return Ok(results);
+                    MotorRemocao(agendamentoDesatualizado);
+
+                    var agendamentoAtual = await _repo.teste();
+                    var results = _mapper.Map<AgendaDto[]>(agendamentoAtual);
+                    if (results != null)
+                    {
+                        return Ok(results);
+                    }
+                    else
+                    {
+                        return Ok(new AgendaDto());
+                    }
                 }
                 else
                 {
@@ -54,16 +63,17 @@ namespace ProAgil.WebApi.Controllers
             }
         }
 
-        [HttpGet("ListaAgendamentosPorUsuario/{usuarioId}")]
-        public async Task<ActionResult> ListaAgendamentosPorUsuario(int usuarioId)
+        [HttpGet("ListaAgendamentosPorUsuario/{UserId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ListaAgendamentosPorUsuario(int UserId)
         {
             try
             {
-                var agendamentoDesatualizado = await _repo.ObterTodosAgendamentosPorUsuarioAsync(usuarioId);
+                var agendamentoDesatualizado = await _repo.ObterTodosAgendamentosPorUsuarioAsync(UserId);
                 MotorRemocao(agendamentoDesatualizado);
                 //mandar a agenda atual para uma nova Lista
 
-                var agendamentoAtual = await _repo.ObterTodosAgendamentosPorUsuarioAsync(usuarioId);
+                var agendamentoAtual = await _repo.ObterTodosAgendamentosPorUsuarioAsync(UserId);
                 var results = _mapper.Map<AgendaDto>(agendamentoAtual);
 
                 return Ok(results);
@@ -101,8 +111,8 @@ namespace ProAgil.WebApi.Controllers
             try
             {
                 var dias = await _repo.ObterDiasAgendadosAsync();
-                var diasComDistinct = dias.Select(x => x.DataHora.Day + "/" + x.DataHora.Month + "/" + x.DataHora.Year).Distinct();
-                var results = _mapper.Map<AgendaDto[]>(dias);
+                var diasDto = _mapper.Map<AgendaDto[]>(dias);
+                var results = diasDto.ToArray().Select(x => x.DataHora.Day + "/" + x.DataHora.Month + "/" + x.DataHora.Year).Distinct();
 
                 return Ok(results);
             }
@@ -112,19 +122,19 @@ namespace ProAgil.WebApi.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("AgendarCliente")]
         [AllowAnonymous]
         public async Task<IActionResult> AgendarCliente(AgendaDto model)
         {
             //Validações
             var agendamentoModel = _mapper.Map<Agenda>(model);
 
-            var clientesAgendados = await _repo.ObterDataClientesAgendadosAsync(agendamentoModel);
+            var clientesAgendados = await _repo.ObterClientesAgendadosMesmaDataAsync(agendamentoModel);
             var horariosAtendimento = await _repo.ObterHorariosAtendimento();
             var horarioAgendado = model.DataHora.ToString("HH:mm");
             try
             {
-                if (clientesAgendados != null)
+                if (clientesAgendados.Length <= 0)
                 {
                     if (horariosAtendimento.Contains(horarioAgendado))
                     {
@@ -136,12 +146,12 @@ namespace ProAgil.WebApi.Controllers
                     }
                     else
                     {
-                        return this.BadRequest();
+                        return Ok("Escolha um horário de Atendimento válido");
                     }
                 }
                 else
                 {
-                    return this.BadRequest();
+                    return Ok("Escolha uma data que ainda não foi agendada");
                 }
             }
             catch (System.Exception ex)

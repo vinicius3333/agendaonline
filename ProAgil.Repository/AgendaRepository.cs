@@ -46,18 +46,16 @@ namespace ProAgil.Repository
 
         public async Task<Agenda[]> teste()
         {
-            IQueryable<Agenda> query = _context.Agendas
-            .OrderByDescending(c => c.DataHora);
-            query = query.AsNoTracking().OrderByDescending(c => c.DataHora);
+            IQueryable<Agenda> query = _context.Agendas;
+            query = query.AsNoTracking();
 
             return await query.ToArrayAsync();
         }
 
-        public async Task<Agenda[]> ObterTodosAgendamentosPorUsuarioAsync(int usuarioId)
+        public async Task<Agenda[]> ObterTodosAgendamentosPorUsuarioAsync(int UserId)
         {
-            IQueryable<Agenda> query = _context.Agendas.Include("User").Where(x => x.UserId == usuarioId )
-            .OrderByDescending(c => c.DataHora);
-            query = query.AsNoTracking().OrderByDescending(c => c.DataHora);
+            IQueryable<Agenda> query = _context.Agendas.Where(x => x.User.AgendaId == UserId);
+            query = query.AsNoTracking();
 
             return await query.ToArrayAsync();
         }
@@ -70,7 +68,7 @@ namespace ProAgil.Repository
             return await query.ToArrayAsync();
         } 
 
-        public async Task<Agenda[]> ObterDataClientesAgendadosAsync(Agenda agenda)
+        public async Task<Agenda[]> ObterClientesAgendadosMesmaDataAsync(Agenda agenda)
         {
             IQueryable<Agenda> query = _context.Agendas.Where(a => a.DataHora == agenda.DataHora);
             query = query.AsNoTracking();

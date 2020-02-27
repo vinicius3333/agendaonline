@@ -55,7 +55,7 @@ namespace ProAgil.WebApi.Controllers
                 var userToReturn = _mapper.Map<UserDto>(user);
                 if(result.Succeeded)
                 {
-                    return Created("GetUser", user);
+                    return Created("GetUser", userToReturn);
                 }
                 return BadRequest(result.Errors);
             }
