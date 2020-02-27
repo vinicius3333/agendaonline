@@ -38,13 +38,13 @@ namespace ProAgil.WebApi.Controllers
 
                 var agendamentoAtual = await _repo.teste();
                 var results = _mapper.Map<AgendaDto[]>(agendamentoAtual);
-                if(results != null)
+                if (results != null)
                 {
-                return Ok(results);
+                    return Ok(results);
                 }
                 else
                 {
-                return Ok(new AgendaDto());
+                    return Ok(new AgendaDto());
                 }
 
             }
@@ -53,7 +53,7 @@ namespace ProAgil.WebApi.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
-        
+
         [HttpGet("ListaAgendamentosPorUsuario/{usuarioId}")]
         public async Task<ActionResult> ListaAgendamentosPorUsuario(int usuarioId)
         {
@@ -150,22 +150,22 @@ namespace ProAgil.WebApi.Controllers
         public async void MotorRemocao(Agenda[] agendamentos)
         {
             var horaAtual = DateTime.Now.ToString("HH:mm:ss");
-            var idDataServicoFinalizado =   _repo.ObterServicosFinalizadosAsync(agendamentos);
-            var idDataServicosVencidos =   _repo.ObterServicosVencidosAsync(agendamentos);
-            
+            var idDataServicoFinalizado = _repo.ObterServicosFinalizadosAsync(agendamentos);
+            var idDataServicosVencidos = _repo.ObterServicosVencidosAsync(agendamentos);
+
             if (idDataServicoFinalizado.Length > 0)
             {
                 //Chamar Delete
-                 _repo.DeleteRange(idDataServicoFinalizado);
+                _repo.DeleteRange(idDataServicoFinalizado);
             }
             else if (idDataServicosVencidos.Length > 0)
             {
                 //Chamar Delete
                 _repo.DeleteRange(idDataServicosVencidos);
             }
-             await _repo.SaveChangesAsync();   
+            await _repo.SaveChangesAsync();
         }
-        
+
         [HttpPost("upload")]
         public async Task<IActionResult> Upload()
         {

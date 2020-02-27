@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProAgil.WebApi.Dtos
 {
     public class UserDto
     {
+        public int Id { get; set; }
         public string UserName { get; set; }
         public string Company { get; set; }
         public string ImagemPerfil { get; set; }
@@ -16,6 +18,13 @@ namespace ProAgil.WebApi.Dtos
         public string Password { get; set; }
         public string FullName { get; set; }
         public List<AgendaDto> Agendas { get; set; }
-        public int? AgendaId { get; set; }
+        public int? AgendaId { get{ return AutoIncrementAgendaId(); } }
+
+        public int AutoIncrementAgendaId()
+        { 
+            var number = this.Id + 1; 
+            return number;
+        }
+
     }
 }

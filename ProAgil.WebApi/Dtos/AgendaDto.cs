@@ -12,7 +12,7 @@ namespace ProAgil.WebApi.Dtos
         [Required (ErrorMessage="Campo Nome é obrigatório")]
         [StringLength (100, MinimumLength=10, ErrorMessage="Preencha seu nome completo")]
         public string Nome { get; set; }
-
+        
         [EmailAddress]
         [Required (ErrorMessage="Campo Email é obrigatório")]
         public string Email { get; set; }

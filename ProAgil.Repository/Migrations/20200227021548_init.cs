@@ -44,8 +44,6 @@ namespace ProAgil.Repository.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -60,14 +58,15 @@ namespace ProAgil.Repository.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FullName = table.Column<string>(type: "nvarchar(150)", nullable: true),
                     Company = table.Column<string>(nullable: true),
                     MarketSegment = table.Column<string>(nullable: true),
                     ImagemPerfil = table.Column<string>(nullable: true),
                     Abertura = table.Column<DateTime>(nullable: false),
                     Fechamento = table.Column<DateTime>(nullable: false),
-                    Duracao = table.Column<string>(nullable: true),
-                    AgendaId = table.Column<int>(nullable: true)
+                    Duracao = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

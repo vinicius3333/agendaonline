@@ -10,7 +10,7 @@ using ProAgil.Repository;
 namespace ProAgil.Repository.Migrations
 {
     [DbContext(typeof(AgendaContext))]
-    [Migration("20200225194318_init")]
+    [Migration("20200227021548_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,8 +146,6 @@ namespace ProAgil.Repository.Migrations
                     b.Property<DateTime>("Abertura");
 
                     b.Property<int>("AccessFailedCount");
-
-                    b.Property<int?>("AgendaId");
 
                     b.Property<string>("Company");
 

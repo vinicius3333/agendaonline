@@ -7,6 +7,8 @@ namespace ProAgil.Domain.Identity
 {
     public class User : IdentityUser<int>
     {
+        public override int Id { get; set; }
+        
         [Column(TypeName = "nvarchar(150)")]
         public string FullName { get; set; }
         public string Company { get; set; }
@@ -16,7 +18,14 @@ namespace ProAgil.Domain.Identity
         public DateTime Fechamento { get; set; }
         public string Duracao { get; set; }
         public List<UserRole> UserRoles { get; set; }
-        public int? AgendaId { get; set; }
+        public int? AgendaId { get{ return AutoIncrementAgendaId(); } }
+
+        public int AutoIncrementAgendaId()
+        { 
+            var number = this.Id + 1; 
+            return number;
+        }
+
         public virtual Agenda Agenda { get;}
     }
 }

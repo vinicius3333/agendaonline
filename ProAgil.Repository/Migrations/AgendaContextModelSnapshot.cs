@@ -145,8 +145,6 @@ namespace ProAgil.Repository.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<int?>("AgendaId");
-
                     b.Property<string>("Company");
 
                     b.Property<string>("ConcurrencyStamp")
