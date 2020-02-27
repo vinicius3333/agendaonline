@@ -80,7 +80,7 @@ namespace ProAgil.Repository
        
         public async Task<Agenda[]> ObterDiasAgendadosAsync()
         {
-            IQueryable<Agenda> query = (IQueryable<Agenda>)  _context.Agendas.OrderBy(x => x.DataHora).ToList().Select(x => x.DataHora.Day + "/" + x.DataHora.Month + "/" + x.DataHora.Year).Distinct();
+            IQueryable<Agenda> query =  _context.Agendas.OrderBy(x => x.DataHora);
             query = query.AsNoTracking();    
 
             return await query.ToArrayAsync();

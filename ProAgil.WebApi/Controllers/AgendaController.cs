@@ -74,15 +74,17 @@ namespace ProAgil.WebApi.Controllers
             }
         }
 
-        [HttpGet("ListaUsuariosPorAgenda/{agendaId}")]
-        public async Task<ActionResult> ListaUsuariosPorAgenda(int agendaId)
+        [HttpGet("ListaUsuariosPorAgenda")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ListaUsuariosPorAgenda()
         {
             try
             {
                 //implementar deletar usuario
 
                 var usuarios = await _repo.ObterTodosUsuariosAsync();
-                var results = _mapper.Map<UserDto>(usuarios);
+                //var dados = usuarios.Select(x => x.Company  x.MarketSegment);
+                var results = _mapper.Map<UserDto[]>(usuarios);
 
                 return Ok(results);
             }
@@ -92,12 +94,15 @@ namespace ProAgil.WebApi.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("ListaDiasAgendados")]
+        [AllowAnonymous]
         public async Task<ActionResult> ListaDiasAgendados()
         {
             try
             {
-                var results = await _repo.ObterDiasAgendadosAsync();
+                var dias = await _repo.ObterDiasAgendadosAsync();
+                var diasComDistinct = dias.Select(x => x.DataHora.Day + "/" + x.DataHora.Month + "/" + x.DataHora.Year).Distinct();
+                var results = _mapper.Map<AgendaDto[]>(dias);
 
                 return Ok(results);
             }
