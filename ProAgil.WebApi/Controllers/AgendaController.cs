@@ -38,7 +38,7 @@ namespace ProAgil.WebApi.Controllers
 
                 if (agendamentoDesatualizado.Length > 0)
                 {
-                    MotorRemocao(agendamentoDesatualizado);
+                    await MotorRemocao(agendamentoDesatualizado);
 
                     var agendamentoAtual = await _repo.teste();
                     var results = _mapper.Map<AgendaDto[]>(agendamentoAtual);
@@ -70,7 +70,7 @@ namespace ProAgil.WebApi.Controllers
             try
             {
                 var agendamentoDesatualizado = await _repo.ObterTodosAgendamentosPorUsuarioAsync(UserId);
-                MotorRemocao(agendamentoDesatualizado);
+                await MotorRemocao(agendamentoDesatualizado);
                 //mandar a agenda atual para uma nova Lista
 
                 var agendamentoAtual = await _repo.ObterTodosAgendamentosPorUsuarioAsync(UserId);
@@ -128,7 +128,6 @@ namespace ProAgil.WebApi.Controllers
         {
             //Validações
             var agendamentoModel = _mapper.Map<Agenda>(model);
-
             var clientesAgendados = await _repo.ObterClientesAgendadosMesmaDataAsync(agendamentoModel);
             var horariosAtendimento = await _repo.ObterHorariosAtendimento();
             var horarioAgendado = model.DataHora.ToString("HH:mm");
@@ -162,7 +161,7 @@ namespace ProAgil.WebApi.Controllers
         }
 
         [AllowAnonymous]
-        public async void MotorRemocao(Agenda[] agendamentos)
+        public async Task MotorRemocao(Agenda[] agendamentos)
         {
             var horaAtual = DateTime.Now.ToString("HH:mm:ss");
             var idDataServicoFinalizado = _repo.ObterServicosFinalizadosAsync(agendamentos);

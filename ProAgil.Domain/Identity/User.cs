@@ -18,14 +18,6 @@ namespace ProAgil.Domain.Identity
         public DateTime Fechamento { get; set; }
         public string Duracao { get; set; }
         public List<UserRole> UserRoles { get; set; }
-        public int? AgendaId { get{ return AutoIncrementAgendaId(); } }
-
-        public int AutoIncrementAgendaId()
-        { 
-            var number = this.Id; 
-            return number;
-        }
-
         public virtual Agenda Agenda { get;}
     }
 }

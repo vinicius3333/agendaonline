@@ -18,13 +18,5 @@ namespace ProAgil.WebApi.Dtos
         public string Password { get; set; }
         public string FullName { get; set; }
         public List<AgendaDto> Agendas { get; set; }
-        public int? AgendaId { get{ return AutoIncrementAgendaId(); } }
-
-        public int AutoIncrementAgendaId()
-        { 
-            var number = this.Id; 
-            return number;
-        }
-
     }
 }

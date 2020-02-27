@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ProAgil.Domain.Identity;
 
 namespace ProAgil.WebApi.Dtos
 {
@@ -26,5 +27,6 @@ namespace ProAgil.WebApi.Dtos
         
         public List<UserDto> Usuarios { get; set; }
         public int? UserId { get; set; }
+        public virtual User User { get; set; }
     }
 }

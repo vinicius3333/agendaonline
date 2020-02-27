@@ -54,7 +54,7 @@ namespace ProAgil.Repository
 
         public async Task<Agenda[]> ObterTodosAgendamentosPorUsuarioAsync(int UserId)
         {
-            IQueryable<Agenda> query = _context.Agendas.Where(x => x.User.AgendaId == UserId);
+            IQueryable<Agenda> query = _context.Agendas.Where(x => x.User.Id == UserId);
             query = query.AsNoTracking();
 
             return await query.ToArrayAsync();
