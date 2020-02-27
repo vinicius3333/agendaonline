@@ -22,7 +22,7 @@ namespace ProAgil.Domain.Identity
 
         public int AutoIncrementAgendaId()
         { 
-            var number = this.Id + 1; 
+            var number = this.Id; 
             return number;
         }
 
