@@ -133,7 +133,7 @@ namespace ProAgil.WebApi.Controllers
             var agendamentoModel = _mapper.Map<Agenda>(agendaDto);
             var clientesAgendados = await _repo.ObterClientesAgendadosMesmaDataAsync(agendamentoModel);
             var horariosAtendimento = await _repo.ObterHorariosAtendimento(agendamentoModel);
-            var horarioAgendado = agendaDto.DataHora.ToString("HH:mm");
+            TimeSpan horarioAgendado = TimeSpan.Parse(agendaDto.DataHora.ToString("HH:mm:ss"));
             try
             {
                 if (agendamentoModel.DataHora > DateTime.Now)

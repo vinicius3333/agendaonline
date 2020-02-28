@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProAgil.Repository;
 
 namespace ProAgil.Repository.Migrations
 {
     [DbContext(typeof(AgendaContext))]
-    partial class AgendaContextModelSnapshot : ModelSnapshot
+    [Migration("20200228174947_DeletandoPropriedadesAberturaeFechamento")]
+    partial class DeletandoPropriedadesAberturaeFechamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,8 +143,6 @@ namespace ProAgil.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<TimeSpan>("Abertura");
-
                     b.Property<int>("AccessFailedCount");
 
                     b.Property<string>("Company");
@@ -156,8 +156,6 @@ namespace ProAgil.Repository.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<TimeSpan>("Fechamento");
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(150)");

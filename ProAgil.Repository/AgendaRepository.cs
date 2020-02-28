@@ -59,14 +59,14 @@ namespace ProAgil.Repository
 
             return await query.ToArrayAsync();
         }
-   
+
         public async Task<User[]> ObterTodosUsuariosAsync()
         {
             IQueryable<User> query = _context.Users;
             query = query.AsNoTracking();
 
             return await query.ToArrayAsync();
-        } 
+        }
 
         public async Task<Agenda[]> ObterClientesAgendadosMesmaDataAsync(Agenda agenda)
         {
@@ -75,54 +75,44 @@ namespace ProAgil.Repository
 
             return await query.ToArrayAsync();
         }
-       
+
         public async Task<Agenda[]> ObterDiasAgendadosAsync()
         {
-            IQueryable<Agenda> query =  _context.Agendas.OrderBy(x => x.DataHora);
-            query = query.AsNoTracking();    
+            IQueryable<Agenda> query = _context.Agendas.OrderBy(x => x.DataHora);
+            query = query.AsNoTracking();
 
             return await query.ToArrayAsync();
         }
 
-        public async Task<List<string>> ObterHorariosAtendimento(Agenda agenda)
+        public async Task<List<TimeSpan>> ObterHorariosAtendimento(Agenda agenda)
         {
-            var duracao = _context.Users.Where(x => x.Id == agenda.UserId).Select(x => x.Duracao.TimeOfDay);
-            var abertura = _context.Users.Where(x => x.Id == agenda.UserId).Select(x => x.Abertura.TimeOfDay);
-            var fechamento = _context.Users.Where(x => x.Id == agenda.UserId).Select(x => x.Fechamento.TimeOfDay);
+            var duracao = _context.Users.Where(x => x.Id == agenda.UserId).Select(x => x.Duracao).ToList().First();
+            var abertura = _context.Users.Where(x => x.Id == agenda.UserId).Select(x => x.Abertura).First();
+            var fechamento = _context.Users.Where(x => x.Id == agenda.UserId).Select(x => x.Fechamento).ToList().First();
 
-
-            for (int i = 0; i < Int32.Parse(fechamento.ToString()); i++)
+            List<TimeSpan> horarios = new List<TimeSpan>();
+            TimeSpan calc = new TimeSpan();
+            calc = abertura;
+            horarios.Add(calc);
+            while (calc < fechamento)
             {
-
+                calc = calc.Add(duracao);
+                horarios.Add(calc);
             }
-
-            List<string> horarios = new List<string>();
-            horarios.Add("09:30");    
-            horarios.Add("10:20");    
-            horarios.Add("11:10");
-            horarios.Add("12:00");
-            horarios.Add("12:50");
-            horarios.Add("13:40");
-            horarios.Add("14:30");
-            horarios.Add("15:20");
-            horarios.Add("16:10");
-            horarios.Add("17:00");
-            horarios.Add("17:50");
-            horarios.Add("18:40");    
 
             return horarios;
         }
 
         public Agenda[] ObterServicosFinalizadosAsync(Agenda[] agendamentos)
         {
-            Agenda[] query = agendamentos.Where(a => a.DataHora <= DateTime.Now && a.DataHora.AddMinutes(50) <= DateTime.Now).ToArray();    
+            Agenda[] query = agendamentos.Where(a => a.DataHora <= DateTime.Now && a.DataHora.AddMinutes(50) <= DateTime.Now).ToArray();
 
             return query;
         }
 
         public Agenda[] ObterServicosVencidosAsync(Agenda[] agendamentos)
         {
-            Agenda[] query = agendamentos.Where(a => a.DataHora < DateTime.Now).ToArray();    
+            Agenda[] query = agendamentos.Where(a => a.DataHora < DateTime.Now).ToArray();
 
             return query;
         }
