@@ -71,9 +71,12 @@ namespace ProAgil.WebApi.Controllers
             {
                 var agendamentoDesatualizado = await _repo.ObterTodosAgendamentosPorUsuarioAsync(UserId);
                 await MotorRemocao(agendamentoDesatualizado);
-                //mandar a agenda atual para uma nova Lista
-
+                
                 var agendamentoAtual = await _repo.ObterTodosAgendamentosPorUsuarioAsync(UserId);
+                if(agendamentoAtual.Length <= 0)
+                {
+                    return Ok("Não há agendamentos para este Usuário");
+                }
                 var results = _mapper.Map<AgendaDto>(agendamentoAtual);
 
                 return Ok(results);
@@ -124,33 +127,40 @@ namespace ProAgil.WebApi.Controllers
 
         [HttpPost("AgendarCliente")]
         [AllowAnonymous]
-        public async Task<IActionResult> AgendarCliente(AgendaDto model)
+        public async Task<IActionResult> AgendarCliente(AgendaDto agendaDto)
         {
             //Validações
-            var agendamentoModel = _mapper.Map<Agenda>(model);
+            var agendamentoModel = _mapper.Map<Agenda>(agendaDto);
             var clientesAgendados = await _repo.ObterClientesAgendadosMesmaDataAsync(agendamentoModel);
-            var horariosAtendimento = await _repo.ObterHorariosAtendimento();
-            var horarioAgendado = model.DataHora.ToString("HH:mm");
+            var horariosAtendimento = await _repo.ObterHorariosAtendimento(agendamentoModel);
+            var horarioAgendado = agendaDto.DataHora.ToString("HH:mm");
             try
             {
-                if (clientesAgendados.Length <= 0)
+                if (agendamentoModel.DataHora > DateTime.Now)
                 {
-                    if (horariosAtendimento.Contains(horarioAgendado))
+                    if (clientesAgendados.Length <= 0)
                     {
-                        _repo.Add(agendamentoModel);
-                        if (await _repo.SaveChangesAsync())
+                        if (horariosAtendimento.Contains(horarioAgendado))
                         {
-                            return Created($"/api/agenda/{model.Id}", _mapper.Map<AgendaDto>(agendamentoModel));
+                            _repo.Add(agendamentoModel);
+                            if (await _repo.SaveChangesAsync())
+                            {
+                                return Created($"/api/agenda/{agendaDto.Id}", _mapper.Map<AgendaDto>(agendamentoModel));
+                            }
+                        }
+                        else
+                        {
+                            return Ok("Escolha um horário de Atendimento válido");
                         }
                     }
                     else
                     {
-                        return Ok("Escolha um horário de Atendimento válido");
+                        return Ok("Escolha uma data que ainda não foi agendada");
                     }
                 }
                 else
                 {
-                    return Ok("Escolha uma data que ainda não foi agendada");
+                    return Ok("Escolha uma data/hora após a deste momento");
                 }
             }
             catch (System.Exception ex)

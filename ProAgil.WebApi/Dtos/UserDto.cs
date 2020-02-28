@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ProAgil.Domain;
 
 namespace ProAgil.WebApi.Dtos
 {
@@ -14,9 +15,10 @@ namespace ProAgil.WebApi.Dtos
         public string MarketSegment { get; set; }
         public DateTime Abertura { get; set; }
         public DateTime Fechamento { get; set; }
-        public string Duracao { get; set; }
+        public DateTime Duracao { get; set; }
         public string Password { get; set; }
         public string FullName { get; set; }
         public List<AgendaDto> Agendas { get; set; }
+        public Agenda Agenda { get; set; }        
     }
 }

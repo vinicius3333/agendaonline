@@ -20,7 +20,7 @@ namespace ProAgil.Repository
          Task<User[]> ObterTodosUsuariosAsync();
          Task<Agenda[]> ObterClientesAgendadosMesmaDataAsync(Agenda agenda);
          Task<Agenda[]> ObterDiasAgendadosAsync();
-         Task<List<string>> ObterHorariosAtendimento();
+         Task<List<string>> ObterHorariosAtendimento(Agenda agenda);
          Agenda[] ObterServicosFinalizadosAsync(Agenda[] agendamentos);
          Agenda[] ObterServicosVencidosAsync(Agenda[] agendamentos);
 

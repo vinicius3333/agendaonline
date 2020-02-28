@@ -54,7 +54,7 @@ namespace ProAgil.Repository
 
         public async Task<Agenda[]> ObterTodosAgendamentosPorUsuarioAsync(int UserId)
         {
-            IQueryable<Agenda> query = _context.Agendas.Where(x => x.User.Id == UserId);
+            IQueryable<Agenda> query = _context.Agendas.Where(x => x.UserId == UserId);
             query = query.AsNoTracking();
 
             return await query.ToArrayAsync();
@@ -84,8 +84,18 @@ namespace ProAgil.Repository
             return await query.ToArrayAsync();
         }
 
-        public async Task<List<string>> ObterHorariosAtendimento()
+        public async Task<List<string>> ObterHorariosAtendimento(Agenda agenda)
         {
+            var duracao = _context.Users.Where(x => x.Id == agenda.UserId).Select(x => x.Duracao.TimeOfDay);
+            var abertura = _context.Users.Where(x => x.Id == agenda.UserId).Select(x => x.Abertura.TimeOfDay);
+            var fechamento = _context.Users.Where(x => x.Id == agenda.UserId).Select(x => x.Fechamento.TimeOfDay);
+
+
+            for (int i = 0; i < Int32.Parse(fechamento.ToString()); i++)
+            {
+
+            }
+
             List<string> horarios = new List<string>();
             horarios.Add("09:30");    
             horarios.Add("10:20");    
@@ -105,14 +115,14 @@ namespace ProAgil.Repository
 
         public Agenda[] ObterServicosFinalizadosAsync(Agenda[] agendamentos)
         {
-            Agenda[] query = agendamentos.Where(a => a.DataHora <= DateTime.Now.Date && a.DataHora.AddMinutes(50) <= DateTime.Now.Date).ToArray();    
+            Agenda[] query = agendamentos.Where(a => a.DataHora <= DateTime.Now && a.DataHora.AddMinutes(50) <= DateTime.Now).ToArray();    
 
             return query;
         }
 
         public Agenda[] ObterServicosVencidosAsync(Agenda[] agendamentos)
         {
-            Agenda[] query = agendamentos.Where(a => a.DataHora < DateTime.Now.Date).ToArray();    
+            Agenda[] query = agendamentos.Where(a => a.DataHora < DateTime.Now).ToArray();    
 
             return query;
         }

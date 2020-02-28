@@ -16,7 +16,7 @@ namespace ProAgil.Domain.Identity
         public string ImagemPerfil { get; set; }
         public DateTime Abertura { get; set; }
         public DateTime Fechamento { get; set; }
-        public string Duracao { get; set; }
+        public DateTime Duracao { get; set; }
         public List<UserRole> UserRoles { get; set; }
         public virtual Agenda Agenda { get;}
     }
