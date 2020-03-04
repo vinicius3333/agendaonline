@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Evento } from '../_models/Evento';
+import { Agenda } from '../_models/Agenda';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EventoService {
-    baseURL = 'http://localhost:5000/api/evento';
+export class AgendaService {
+    baseURL = 'http://localhost:5000/api/agenda';
 constructor(private http: HttpClient) {}
 
-  getAllEvento(): Observable<Evento[]> {
-    return this.http.get<Evento[]>(this.baseURL);
+  getAllEvento(): Observable<Agenda[]> {
+    return this.http.get<Agenda[]>(this.baseURL);
   }
 
-  getEventoByTema(tema: string): Observable<Evento[]> {
-    return this.http.get<Evento[]>(`${this.baseURL}/getByTema/${tema}`);
+  getEventoByTema(tema: string): Observable<Agenda[]> {
+    return this.http.get<Agenda[]>(`${this.baseURL}/getByTema/${tema}`);
   }
 
-  getEventoById(id: number): Observable<Evento[]> {
-    return this.http.get<Evento[]>(`${this.baseURL}/${id}`);
+  getEventoById(id: number): Observable<Agenda[]> {
+    return this.http.get<Agenda[]>(`${this.baseURL}/${id}`);
   }
 
-  postEvento(evento: Evento) {
+  postEvento(evento: Agenda) {
     return this.http.post(this.baseURL, evento );
   }
 
@@ -34,7 +34,7 @@ constructor(private http: HttpClient) {}
     return this.http.post(`${this.baseURL}/upload`, formData);
   }
 
-  putEvento(evento: Evento) {
+  putEvento(evento: Agenda) {
     return this.http.put(`${this.baseURL}/${evento.id}`, evento);
   }
 

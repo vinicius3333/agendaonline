@@ -4,7 +4,7 @@ import { BsDropdownModule, TooltipModule, ModalModule, BsDatepickerModule, TabsM
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EventoService } from './_services/Evento.service';
+import { AgendaService } from './_services/Agenda.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskModule } from 'ngx-mask';
@@ -13,9 +13,8 @@ import { NgxCurrencyModule } from 'ngx-currency';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { PalestrantesComponent } from './palestrantes/palestrantes.component';
-import { EventosComponent } from './eventos/eventos.component';
-import { EventoEditComponent } from './eventos/eventoEdit/eventoEdit.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { AgendamentosComponent } from './agendamentos/agendamentos.component';
+import { HomeComponent } from './home/home.component';
 import { ContatosComponent } from './contatos/contatos.component';
 import { TituloComponent } from './_shared/titulo/titulo.component';
 
@@ -28,12 +27,11 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 @NgModule({
    declarations: [
       AppComponent,
-      EventosComponent,
-      EventoEditComponent,
+      AgendamentosComponent,
       NavComponent,
       DateTimeFormatPipePipe,
       PalestrantesComponent,
-      DashboardComponent,
+      HomeComponent,
       ContatosComponent,
       TituloComponent,
       UserComponent,
@@ -57,7 +55,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
       ReactiveFormsModule
    ],
    providers: [
-      EventoService,
+      AgendaService,
       {
          provide: HTTP_INTERCEPTORS,
          useClass: AuthInterceptor,

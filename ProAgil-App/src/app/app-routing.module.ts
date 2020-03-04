@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EventosComponent } from './eventos/eventos.component';
+import { AgendamentosComponent } from './agendamentos/agendamentos.component';
 import { PalestrantesComponent } from './palestrantes/palestrantes.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './home/home.component';
 import { ContatosComponent } from './contatos/contatos.component';
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { AuthGuard } from './auth/auth.guard';
-import { EventoEditComponent } from './eventos/eventoEdit/eventoEdit.component';
 
 
 const routes: Routes = [
@@ -18,13 +17,13 @@ const routes: Routes = [
      {path: 'registration', component: RegistrationComponent}
    ]
   },
-  {path: 'eventos', component: EventosComponent, canActivate: [AuthGuard]},
-  {path: 'evento/:id/edit', component: EventoEditComponent, canActivate: [AuthGuard]},
+  {path: 'eventos', component: AgendamentosComponent, canActivate: [AuthGuard]},
+// {path: 'evento/:id/edit', component: EventoEditComponent, canActivate: [AuthGuard]},
   {path: 'palestrantes', component: PalestrantesComponent, canActivate: [AuthGuard]},
-  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'contatos', component: ContatosComponent, canActivate: [AuthGuard]},
-  {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-  {path: '**', redirectTo: 'dashboard', pathMatch: 'full'}
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: '**', redirectTo: 'home', pathMatch: 'full'}
 ];
 
 @NgModule({
