@@ -21,7 +21,7 @@
 <div class="table-responsive">
   <div class="container">
     <div class="row">
-      <table *ngFor="let evento of eventos" class="table table-bordered text-center">
+      <table *ngFor="let agenda of agendas" class="table table-bordered text-center">
         <thead class="thead-light">
           <tr class="text-center" >
             <th colspan="9" class="dateHeader" style="background-color:#e95420; color:white;font-size:larger;">Data do Serviço</th>
@@ -33,51 +33,38 @@
               </button>
             </th>
             <th>#</th>
-            <th>Tema</th>
-            <th>Local</th>
-            <th>Data</th>
-            <th>Qtd Pessoas</th>
-            <th>Lote</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Data Hora</th>
+            <th>Celular</th>
             <th colspan="2">Opções</th>
           </tr>
         </thead>
-        <tbody *ngIf="eventos && eventos.length">
-          <tr *ngFor="let evento of eventosFiltrados">
-            <td>
-              <img *ngIf="mostrarImagem" src="http://localhost:5000/resources/images/{{evento.imagemURL}}?_ts={{dataAtual}}"
-              [style.width.px]="imagemLargura" [style.margin.px]="imagemMargem">
-            </td>
-            <td>{{evento.id}}</td>
-            <td>{{evento.tema}}</td>
-            <td>{{evento.local}}</td>
-            <td>{{evento.dataEvento | DateTimeFormatPipe}}</td>
-            <td>{{evento.qtdPessoas}}</td>
-            <td>
-              <div *ngIf="!evento.lotes.length">
-                Não Informado
-              </div>
-              <div *ngIf="evento.lotes.length">
-                {{evento.lotes[0].nome | uppercase}}
-              </div>
-            </td>
+        <tbody *ngIf="agendas && agendas.length">
+          <tr *ngFor="let agenda of agendamentosFiltrados">
+            <td>{{agenda.id}}</td>
+            <td>{{agenda.nome}}</td>
+            <td>{{agenda.email}}</td>
+            <td>{{agenda.dataHora | DateTimeFormatPipe}}</td>
+            <td>{{agenda.celular}}</td>
             <td>
               <div class="btn-group">
-                <button class="btn btn-sm btn-success" tooltip="Editar" (click)="editarEvento(evento, template)">
+                <button class="btn btn-sm btn-success" tooltip="Editar" (click)="editarEvento(agenda, template)">
                   <i class="fa fa-edit"></i>
                 </button>
-                <button class="btn btn-sm btn-danger" tooltip="Excluir" (click)="excluirEvento(evento, confirm)">
+                <button class="btn btn-sm btn-danger" tooltip="Excluir" (click)="excluirEvento(agenda, confirm)">
                   <i class="fa fa-eraser"></i>
                 </button>
               </div>
             </td>
             <td>
-              <a [routerLink]="['/evento', evento.id, 'edit']" tooltip="Edição Detalhada" class="btn btn-sm btn-warning">
+              <a [routerLink]="['/evento', agenda.id, 'edit']" tooltip="Edição Detalhada" class="btn btn-sm btn-warning">
                 <i class="fa fa-edit"></i>
               </a>
             </td>
           </tr>
         </tbody>
-        <tfoot *ngIf="!eventos">
+        <tfoot *ngIf="!agendas">
           <tr>
             <td colspan="7" class="text-center">
               <h4>

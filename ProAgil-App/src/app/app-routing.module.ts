@@ -17,7 +17,6 @@ const routes: Routes = [
      {path: 'registration', component: RegistrationComponent}
    ]
   },
-  {path: 'eventos', component: AgendamentosComponent, canActivate: [AuthGuard]},
 // {path: 'evento/:id/edit', component: EventoEditComponent, canActivate: [AuthGuard]},
   {path: 'palestrantes', component: PalestrantesComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
