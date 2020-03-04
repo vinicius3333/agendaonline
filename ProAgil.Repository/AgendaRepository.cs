@@ -59,10 +59,10 @@ namespace ProAgil.Repository
 
             return await query.ToArrayAsync();
         }
-
+        
         public async Task<User[]> ObterTodosUsuariosAsync()
         {
-            IQueryable<User> query = _context.Users;
+            IQueryable<User> query = _context.Users.OrderByDescending(x => x.Id);
             query = query.AsNoTracking();
 
             return await query.ToArrayAsync();

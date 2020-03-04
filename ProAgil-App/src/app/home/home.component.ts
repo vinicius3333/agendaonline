@@ -52,47 +52,26 @@ export class HomeComponent implements OnInit {
   }
 
   // Sugestão do Aluno Kelvi Martins Ribeiro
-  filtrarUsuarios(filtrarPor: string) {
-    filtrarPor = filtrarPor.toLocaleLowerCase()
-    return this.usuarios.filter(usuario => {
-      return usuario.company.toLocaleLowerCase().includes(filtrarPor)
-    })
-  }
-
-  // // Sugestão do Aluno Pablo Ferreira
-  // filtrarClientes(filtrarPor: string): Cliente[] {
-  //   filtrarPor = filtrarPor.toLocaleLowerCase();
-  //   return this._cliente.filter(
-  //     cliente => cliente.nome.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-  //     || cliente.nomeDelegacia.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-  //     || cliente.status.toLocaleLowerCase().startsWith(filtrarPor)
-  //   );
+  // filtrarUsuarios(filtrarPor: string) {
+  //   filtrarPor = filtrarPor.toLocaleLowerCase()
+  //   return this.usuarios.filter(usuario => {
+  //     return usuario.company.toLocaleLowerCase().includes(filtrarPor)
+  //   })
   // }
 
   ngOnInit() {
-    this.validation();
     this.getUsuarios();
   }
 
-  // filtrarEventos(filtrarPor: string): Evento[] {
-  //   filtrarPor = filtrarPor.toLocaleLowerCase();
-  //   return this.eventos.filter(
-  //     evento => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-  //   );
-  // }
+  filtrarUsuarios(filtrarPor: string): User[] {
+    filtrarPor = filtrarPor.toLocaleLowerCase();
+    return this.usuarios.filter(
+      usuario => usuario.company.toLocaleLowerCase().indexOf(filtrarPor) !== -1
+    );
+  }
 
   alternarImagem() {
     this.mostrarImagem = !this.mostrarImagem;
-  }
-
-  validation() {
-    this.registerForm = this.fb.group({
-      nome: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-      email: ['', Validators.required],
-      dataHora: ['', Validators.required],
-      celular: ['', Validators.required],
-      userId: ['', Validators.required],
-    });
   }
 
   onFileChange(agen) {
