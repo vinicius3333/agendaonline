@@ -1,3 +1,4 @@
+import { Time } from '@angular/common';
 
 export class User {
     constructor() {}
@@ -6,9 +7,9 @@ export class User {
     company: string;
     marketSegment: string;
     imagemPerfil: string;
-    abertura: string;
-    fechamento: string;
-    duracao: string;
+    abertura: Time;
+    fechamento: Time;
+    duracao: Time;
     userName: string;
     email: string;
     password: string;

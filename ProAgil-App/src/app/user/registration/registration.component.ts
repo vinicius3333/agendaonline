@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { BsLocaleService } from 'ngx-bootstrap';
 import { User } from 'src/app/_models/User';
 import { AuthService } from 'src/app/_services/auth.service';
 import { Router } from '@angular/router';
@@ -17,8 +18,10 @@ export class RegistrationComponent implements OnInit {
 
   constructor(private authService: AuthService
     , public router: Router
+    , private localeService: BsLocaleService
     , public fb: FormBuilder
     , private toastr: ToastrService) {
+      this.localeService.use('pt-br');
   }
 
   ngOnInit() {
@@ -29,6 +32,12 @@ export class RegistrationComponent implements OnInit {
     this.registerForm = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      company: ['', Validators.required],
+      marketSegment: ['', Validators.required],
+      imagemPerfil: [''],
+      abertura: ['', Validators.required],
+      fechamento: ['', Validators.required],
+      duracao: ['', Validators.required],
       userName: ['', Validators.required],
       passwords: this.fb.group({
         password: ['', [Validators.required, Validators.minLength(4)]],

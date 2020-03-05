@@ -4,7 +4,7 @@ export class Agenda {
     id: number;
     nome: string;
     email: string;
-    dataHora: string;
+    dataHora: Date;
     celular: string;
     userId: string;
 }

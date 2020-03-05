@@ -35,6 +35,76 @@
           </div> 
       </div>
       <div class="form-group">
+        <label for="">Empresa:</label>
+        <input class="form-control" type="text" formControlName="company"
+          [ngClass]="{'is-invalid': registerForm.get('company').errors &&
+                                    registerForm.get('company').touched}"
+          placeholder="Insira o nome da sua Empresa"/>
+        <div *ngIf="registerForm.get('company').hasError('required') &&
+                    registerForm.get('company').touched"
+          class="invalid-feedback">
+          Empresa é obrigatória.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Segmento:</label>
+        <input class="form-control" type="text" formControlName="marketSegment"
+          [ngClass]="{'is-invalid': registerForm.get('marketSegment').errors &&
+                                    registerForm.get('marketSegment').touched}"
+          placeholder="Insira o nome do Segmento da sua Empresa"/>
+        <div *ngIf="registerForm.get('marketSegment').hasError('required') &&
+                    registerForm.get('marketSegment').touched"
+          class="invalid-feedback">
+          Segmento é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-9">
+          <input type="file" 
+          class="form-control is-invalid"
+            formControlName="imagemPerfil" placeholder="" style="display: none">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Abertura do Estabelecimento</label>
+        <input type="text" class="form-control" [(ngModel)]="user.abertura" bsDatepicker
+          value="{{user.abertura | TimeFormatPipe}}"
+          [bsConfig]="{ dateInputFormat : 'hh:mm' }" [ngClass]="{'is-invalid': registerForm.get('abertura').errors
+      && registerForm.get('abertura').touched}" formControlName="abertura" placeholder="">
+        <div *ngIf="registerForm.get('abertura').hasError('required')
+      && registerForm.get('abertura').touched" class="invalid-feedback">
+          Abertura é obrigatória.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Fechamento do Estabelecimento</label>
+        <input type="text" class="form-control" [(ngModel)]="user.fechamento" bsDatepicker
+          value="{{user.fechamento | TimeFormatPipe}}"
+          [bsConfig]="{ dateInputFormat : 'hh:mm' }" [ngClass]="{'is-invalid': registerForm.get('fechamento').errors
+      && registerForm.get('fechamento').touched}" formControlName="fechamento" placeholder="">
+        <div *ngIf="registerForm.get('fechamento').hasError('required')
+      && registerForm.get('fechamento').touched" class="invalid-feedback">
+          Fechamento é obrigatória.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Duração do Serviço</label>
+        <input type="text" class="form-control" [(ngModel)]="user.duracao" bsDatepicker
+          value="{{user.duracao | TimeFormatPipe}}"
+          [bsConfig]="{ dateInputFormat : 'hh:mm' }" [ngClass]="{'is-invalid': registerForm.get('duracao').errors
+      && registerForm.get('duracao').touched}" formControlName="duracao" placeholder="">
+        <div *ngIf="registerForm.get('duracao').hasError('required')
+      && registerForm.get('duracao').touched" class="invalid-feedback">
+          Duração é obrigatória.
+        </div>
+      </div>
+
+      <div class="form-group">
         <label for="">Usuario:</label>
         <input class="form-control" type="text" formControlName="userName"
           [ngClass]="{'is-invalid': registerForm.get('userName').errors &&
@@ -46,6 +116,7 @@
           Usuário é obrigatório.
         </div>
       </div>
+
       <div formGroupName="passwords">
         <div class="form-group">
           <label for="">Senha:</label>
