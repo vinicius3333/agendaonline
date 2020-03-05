@@ -5,7 +5,7 @@ import { Constants } from '../util/Constants';
 @Pipe({
   name: 'TimeFormatPipe'
 })
-export class TimeFormatPipePipe extends DatePipe implements PipeTransform {
+export class TimeFormatPipe extends DatePipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
     return super.transform(value, Constants.TIME);

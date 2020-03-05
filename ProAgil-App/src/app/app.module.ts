@@ -23,6 +23,7 @@ import { RegistrationComponent } from './user/registration/registration.componen
 import { UserComponent } from './user/user.component';
 
 import { DateTimeFormatPipePipe } from './_helps/DateTimeFormatPipe.pipe';
+import { TimeFormatPipe } from './_helps/TimeFormatPipe.pipe';
 import { AuthInterceptor } from './auth/auth.interceptor';
 @NgModule({
    declarations: [
@@ -30,6 +31,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
       AgendamentosComponent,
       NavComponent,
       DateTimeFormatPipePipe,
+      TimeFormatPipe,
       PalestrantesComponent,
       HomeComponent,
       ContatosComponent,
