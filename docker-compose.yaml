@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  proagil:
+    image: proagil
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    networks:
+      - proagil-network
+
+networks: 
+    proagil-network:
+        driver: bridge
